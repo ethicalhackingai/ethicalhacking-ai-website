@@ -52,7 +52,7 @@ export function Newsletter() {
                 Stay Ahead of Cyber Threats
               </h2>
               <p className="text-muted-foreground text-lg">
-                Join <span className="text-primary font-mono font-bold">10,000+</span> security professionals getting weekly AI-powered insights.
+                Join <span className="text-primary font-mono font-bold">0+</span> security professionals getting weekly AI-powered insights.
               </p>
             </div>
             

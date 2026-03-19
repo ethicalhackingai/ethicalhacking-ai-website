@@ -31,6 +31,7 @@ export function Hero() {
           <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
             className="w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl shadow-[0_0_20px_rgba(0,212,255,0.4)] hover:shadow-[0_0_30px_rgba(0,212,255,0.6)] transition-all duration-300 flex items-center justify-center gap-2 group"
           >
             Explore AI Tools
