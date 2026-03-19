@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "_8RqefAriqeQ_katz8JW1"
+uri = "file://ethicalhacking-ai-website.zip"
+type = "unspecified"
+title = "ethicalhacking-ai-website.zip"
