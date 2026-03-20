@@ -26,9 +26,20 @@ function isUrl(input: RequestInfo | URL): input is URL {
 }
 
 function resolveUrl(input: RequestInfo | URL): string {
-  if (typeof input === "string") return input;
-  if (isUrl(input)) return input.toString();
-  return input.url;
+  let url: string;
+  if (typeof input === "string") url = input;
+  else if (isUrl(input)) url = input.toString();
+  else url = input.url;
+
+  const apiBase =
+    typeof import.meta !== "undefined" &&
+    (import.meta as { env?: Record<string, string> }).env?.VITE_API_BASE_URL;
+
+  if (apiBase && url.startsWith("/")) {
+    return `${apiBase.replace(/\/$/, "")}${url}`;
+  }
+
+  return url;
 }
 
 function mergeHeaders(...sources: Array<HeadersInit | undefined>): Headers {
