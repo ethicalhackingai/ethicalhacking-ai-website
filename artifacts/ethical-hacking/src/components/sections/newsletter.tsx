@@ -29,7 +29,11 @@ export function Newsletter() {
       },
       onError: (error: any) => {
         setStatus("error");
-        setErrorMessage(error?.response?.data?.error || "Failed to subscribe. Please try again.");
+        setErrorMessage(
+          error?.data?.error ||
+          error?.message ||
+          "Failed to subscribe. Please try again."
+        );
       }
     }
   });
