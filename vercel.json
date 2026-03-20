@@ -1,0 +1,9 @@
+{
+  "buildCommand": "pnpm --filter @workspace/ethical-hacking run build",
+  "outputDirectory": "artifacts/ethical-hacking/dist/public",
+  "installCommand": "pnpm install --frozen-lockfile=false",
+  "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
