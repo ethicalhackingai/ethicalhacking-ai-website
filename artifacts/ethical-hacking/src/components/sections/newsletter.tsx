@@ -18,6 +18,8 @@ export function Newsletter() {
   
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormValues>({
     resolver: zodResolver(schema),
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
   });
 
   const subscribeMutation = useSubscribeNewsletter({

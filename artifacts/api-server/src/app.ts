@@ -6,7 +6,20 @@ import router from "./routes";
 
 const app: Express = express();
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://ethicalhacking.ai",
+    "https://www.ethicalhacking.ai",
+    /\.ethicalhacking\.ai$/,
+    /\.vercel\.app$/,
+    /\.replit\.dev$/,
+    "http://localhost:5173",
+    "http://localhost:3000",
+  ],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

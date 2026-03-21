@@ -31,9 +31,7 @@ function resolveUrl(input: RequestInfo | URL): string {
   else if (isUrl(input)) url = input.toString();
   else url = input.url;
 
-  const apiBase =
-    typeof import.meta !== "undefined" &&
-    (import.meta as { env?: Record<string, string> }).env?.VITE_API_BASE_URL;
+  const apiBase = import.meta.env.VITE_API_BASE_URL as string | undefined;
 
   if (apiBase && url.startsWith("/")) {
     return `${apiBase.replace(/\/$/, "")}${url}`;
@@ -312,9 +310,10 @@ export async function customFetch<T = unknown>(
     headers.set("accept", DEFAULT_JSON_ACCEPT);
   }
 
-  const requestInfo = { method, url: resolveUrl(input) };
+  const resolvedUrl = resolveUrl(input);
+  const requestInfo = { method, url: resolvedUrl };
 
-  const response = await fetch(input, { ...init, method, headers });
+  const response = await fetch(resolvedUrl, { ...init, method, headers });
 
   if (!response.ok) {
     const errorData = await parseErrorBody(response, method);
