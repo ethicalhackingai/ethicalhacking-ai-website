@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { HelmetProvider } from "react-helmet-async";
 import Home from "@/pages/home";
+import Tools from "@/pages/tools";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient({
@@ -19,6 +20,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/tools" component={Tools} />
       <Route component={NotFound} />
     </Switch>
   );

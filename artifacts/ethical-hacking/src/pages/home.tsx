@@ -1,5 +1,6 @@
 import { SEO } from "@/components/seo";
 import { BackgroundGrid } from "@/components/background-grid";
+import { Navbar } from "@/components/layout/navbar";
 import { Hero } from "@/components/sections/hero";
 import { Features } from "@/components/sections/features";
 import { Stats } from "@/components/sections/stats";
@@ -11,8 +12,9 @@ export default function Home() {
     <div className="min-h-screen flex flex-col font-sans">
       <SEO />
       <BackgroundGrid />
+      <Navbar />
       
-      <main className="flex-1">
+      <main className="flex-1 pt-16">
         <Hero />
         <Stats />
         <Features />

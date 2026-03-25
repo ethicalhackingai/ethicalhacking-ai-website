@@ -3,7 +3,7 @@ import { Shield, ArrowRight } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-20 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative min-h-[90vh] flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
       
       <motion.div 
         initial={{ opacity: 0, y: 20 }}

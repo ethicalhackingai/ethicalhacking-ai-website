@@ -41,14 +41,29 @@ artifacts-monorepo/
 
 ### `artifacts/ethical-hacking` (`@workspace/ethical-hacking`)
 
-EthicalHacking.ai landing page with 5 sections:
-1. **Hero** — "AI-Powered Cybersecurity Intelligence" with animated background grid, cyan/green buttons
+EthicalHacking.ai — AI-powered cybersecurity intelligence platform. Two pages:
+
+**Home (`/`)** — Landing page with 5 sections:
+1. **Hero** — "AI-Powered Cybersecurity Intelligence", updated subtitle, cyan/green CTAs
 2. **Stats Bar** — 500+ AI Tools Tracked, 50+ Categories, Weekly Updates, 100% Free to Start
 3. **Features** — 4-card grid: AI Tools Directory, Weekly Newsletter, Prompt Library, AI Reports
 4. **Newsletter** — Email capture form storing to PostgreSQL via `/api/newsletter/subscribe`
-5. **Footer** — Logo, copyright 2026, nav links, social icons
+5. **Footer** — © 2025 EthicalHacking.ai | hello@ethicalhacking.ai | Privacy Policy | Terms of Service
+
+**Tools Directory (`/tools`)** — Searchable AI tools directory:
+- Fetches from Supabase (`ai_tools` + `tool_categories` tables)
+- Search by name/description, filter by category and pricing model
+- Responsive 3-col grid with tool cards (name, category, description, pricing badge, rating, visit link)
+- Featured tools (gold border), New tools (NEW badge)
+- Category pills with emoji icons from `tool_categories.icon`
+
+**Navbar** — Fixed header with logo + Home + Browse AI Tools links, mobile hamburger menu.
+
+**Supabase integration**: `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` env vars, client in `src/lib/supabase.ts`.
 
 Design: Dark navy theme (#0A0E27), cyan (#00D4FF) and green (#00FF88) accents, futuristic hacker aesthetic. Fully responsive.
+
+**Routing**: API calls in dev proxied via Vite to `localhost:8080` (api-server). In production on Vercel, `VITE_API_BASE_URL` is set to the Replit backend URL.
 
 ### `artifacts/api-server` (`@workspace/api-server`)
 
