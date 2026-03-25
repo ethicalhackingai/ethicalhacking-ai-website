@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Search, ExternalLink, Star, Filter, ChevronDown, Loader2, AlertCircle } from "lucide-react";
@@ -116,6 +116,10 @@ export default function Tools() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedPricing, setSelectedPricing] = useState<string>("All");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const { data: tools = [], isLoading: toolsLoading, error } = useQuery<AiTool[]>({
     queryKey: ["ai_tools"],
