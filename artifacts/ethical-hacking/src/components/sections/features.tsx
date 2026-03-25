@@ -1,15 +1,17 @@
 import { motion } from "framer-motion";
-import { Shield, Mail, TerminalSquare, FileBarChart } from "lucide-react";
+import { Shield, Mail, TerminalSquare, FileBarChart, ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 import { cn } from "@/lib/utils";
 
 const features = [
   {
     title: "AI Tools Directory",
-    description: "200+ curated AI tools for security professionals, constantly updated with the latest in defensive and offensive tech.",
+    description: "500+ curated AI tools for security professionals. Browse, search and compare.",
     icon: Shield,
     color: "text-primary",
     bg: "bg-primary/10",
-    border: "group-hover:border-primary/50"
+    border: "group-hover:border-primary/50",
+    href: "/tools",
   },
   {
     title: "Weekly Newsletter",
@@ -69,33 +71,54 @@ export function Features() {
         viewport={{ once: true, margin: "-100px" }}
         className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
       >
-        {features.map((feature, idx) => (
-          <motion.div key={idx} variants={item}>
+        {features.map((feature, idx) => {
+          const cardInner = (
             <div className={cn(
               "group relative p-8 rounded-2xl glass-panel transition-all duration-300 h-full",
               "hover:-translate-y-1 hover:shadow-2xl",
-              feature.border
+              feature.border,
+              feature.href && "cursor-pointer"
             )}>
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                 <feature.icon className={cn("w-24 h-24", feature.color)} />
               </div>
-              
+
               <div className={cn("w-14 h-14 rounded-xl flex items-center justify-center mb-6", feature.bg)}>
                 <feature.icon className={cn("w-7 h-7", feature.color)} />
               </div>
-              
+
               <h3 className="text-xl font-bold mb-3 font-display">{feature.title}</h3>
               <p className="text-muted-foreground leading-relaxed">
                 {feature.description}
               </p>
-              
-              <div className="mt-6 flex items-center text-sm font-mono text-muted-foreground group-hover:text-foreground transition-colors">
-                <span className="w-2 h-2 rounded-full bg-primary/50 animate-pulse mr-2" />
-                Coming Soon
+
+              <div className="mt-6 flex items-center text-sm font-mono transition-colors">
+                {feature.href ? (
+                  <span className={cn("flex items-center gap-1.5 font-semibold", feature.color)}>
+                    Browse Tools <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                ) : (
+                  <span className="text-muted-foreground group-hover:text-foreground flex items-center">
+                    <span className="w-2 h-2 rounded-full bg-primary/50 animate-pulse mr-2" />
+                    Coming Soon
+                  </span>
+                )}
               </div>
             </div>
-          </motion.div>
-        ))}
+          );
+
+          return (
+            <motion.div key={idx} variants={item}>
+              {feature.href ? (
+                <Link href={feature.href} className="block h-full">
+                  {cardInner}
+                </Link>
+              ) : (
+                cardInner
+              )}
+            </motion.div>
+          );
+        })}
       </motion.div>
     </section>
   );
