@@ -9,10 +9,10 @@ import { BackgroundGrid } from "@/components/background-grid";
 import { cn } from "@/lib/utils";
 import { SEO } from "@/components/seo";
 
-const PRICING_OPTIONS = ["All", "Free", "Freemium", "Paid", "Enterprise"] as const;
+const PRICING_OPTIONS = ["All", "Free/OSS", "Freemium", "Paid", "Enterprise"] as const;
 
 const PRICING_BADGE: Record<string, { label: string; classes: string }> = {
-  Free: { label: "Free / OSS", classes: "bg-green-500/15 text-green-400 border-green-500/30" },
+  "Free/OSS": { label: "Free / OSS", classes: "bg-green-500/15 text-green-400 border-green-500/30" },
   Freemium: { label: "Freemium", classes: "bg-blue-500/15 text-blue-400 border-blue-500/30" },
   Paid: { label: "Paid", classes: "bg-orange-500/15 text-orange-400 border-orange-500/30" },
   Enterprise: { label: "Enterprise", classes: "bg-red-500/15 text-red-400 border-red-500/30" },
@@ -192,8 +192,8 @@ export default function Tools() {
           </motion.div>
         </section>
 
-        {/* Sticky Filters */}
-        <section className="sticky top-16 z-40 bg-background/90 backdrop-blur-xl border-b border-border/40 px-4 sm:px-6 lg:px-8 py-4">
+        {/* Filters */}
+        <section className="bg-background/90 backdrop-blur-xl border-b border-border/40 px-4 sm:px-6 lg:px-8 py-4">
           <div className="max-w-7xl mx-auto flex flex-col gap-4">
             {/* Search + Pricing row */}
             <div className="flex flex-col sm:flex-row gap-3">
@@ -218,7 +218,7 @@ export default function Tools() {
                 >
                   {PRICING_OPTIONS.map((p) => (
                     <option key={p} value={p} className="bg-card">
-                      {p === "All" ? "All Pricing" : p === "Free" ? "Free / OSS" : p}
+                      {p === "All" ? "All Pricing" : p === "Free/OSS" ? "Free / OSS" : p}
                     </option>
                   ))}
                 </select>
