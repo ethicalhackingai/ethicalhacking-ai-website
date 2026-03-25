@@ -226,11 +226,11 @@ export default function Tools() {
             </div>
 
             {/* Category pills */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-nowrap overflow-x-auto scrollbar-hide gap-2 pb-0.5 lg:flex-wrap -mx-4 sm:-mx-6 lg:mx-0 px-4 sm:px-6 lg:px-0">
               <button
                 onClick={() => setSelectedCategory(null)}
                 className={cn(
-                  "px-3 py-1.5 rounded-full text-xs font-medium transition-all border",
+                  "shrink-0 whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-medium transition-all border",
                   selectedCategory === null
                     ? "bg-primary/20 text-primary border-primary/40"
                     : "bg-card text-muted-foreground border-border hover:border-primary/30 hover:text-foreground"
@@ -243,7 +243,7 @@ export default function Tools() {
                   key={cat.id}
                   onClick={() => setSelectedCategory(selectedCategory === cat.name ? null : cat.name)}
                   className={cn(
-                    "px-3 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5",
+                    "shrink-0 whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5",
                     selectedCategory === cat.name
                       ? "bg-primary/20 text-primary border-primary/40"
                       : "bg-card text-muted-foreground border-border hover:border-primary/30 hover:text-foreground"
