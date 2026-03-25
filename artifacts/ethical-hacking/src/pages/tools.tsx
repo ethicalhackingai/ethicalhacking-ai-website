@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Search, ExternalLink, Star, Filter, ChevronDown, Loader2, AlertCircle } from "lucide-react";
-import { supabase, type AiTool, type ToolCategory } from "@/lib/supabase";
+import { supabase, type AiTool } from "@/lib/supabase";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/sections/footer";
 import { BackgroundGrid } from "@/components/background-grid";
@@ -117,19 +117,6 @@ export default function Tools() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedPricing, setSelectedPricing] = useState<string>("All");
 
-  const { data: categories = [], isLoading: catLoading } = useQuery<ToolCategory[]>({
-    queryKey: ["tool_categories"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("tool_categories")
-        .select("*")
-        .order("display_order", { ascending: true })
-        .order("name");
-      if (error) throw error;
-      return data ?? [];
-    },
-  });
-
   const { data: tools = [], isLoading: toolsLoading, error } = useQuery<AiTool[]>({
     queryKey: ["ai_tools"],
     queryFn: async () => {
@@ -137,11 +124,24 @@ export default function Tools() {
         .from("ai_tools")
         .select("*")
         .order("is_featured", { ascending: false })
-        .order("name");
+        .order("name")
+        .limit(1000);
       if (error) throw error;
       return data ?? [];
     },
   });
+
+  const categories = useMemo<string[]>(() => {
+    const seen = new Set<string>();
+    const result: string[] = [];
+    for (const t of tools) {
+      if (t.category && !seen.has(t.category)) {
+        seen.add(t.category);
+        result.push(t.category);
+      }
+    }
+    return result.sort((a, b) => a.localeCompare(b));
+  }, [tools]);
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
@@ -153,13 +153,13 @@ export default function Tools() {
     });
   }, [tools, search, selectedCategory, selectedPricing]);
 
-  const isLoading = catLoading || toolsLoading;
+  const isLoading = toolsLoading;
 
   return (
     <div className="min-h-screen flex flex-col font-sans">
       <SEO
         title="AI Security Tools Directory | EthicalHacking.ai"
-        description="Browse 120+ curated AI-powered cybersecurity tools for ethical hackers and security professionals."
+        description="Browse 500+ curated AI-powered cybersecurity tools for ethical hackers and security professionals."
       />
       <BackgroundGrid />
       <Navbar />
@@ -180,7 +180,7 @@ export default function Tools() {
               </span>
             </h1>
             <p className="text-lg text-muted-foreground mb-6">
-              120+ curated AI-powered cybersecurity tools across 12 categories
+              500+ curated AI-powered cybersecurity tools across {categories.length || "multiple"} categories
             </p>
             {!isLoading && (
               <p className="text-sm font-mono text-muted-foreground">
@@ -240,17 +240,16 @@ export default function Tools() {
               </button>
               {categories.map((cat) => (
                 <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(selectedCategory === cat.name ? null : cat.name)}
+                  key={cat}
+                  onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
                   className={cn(
-                    "shrink-0 whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-medium transition-all border flex items-center gap-1.5",
-                    selectedCategory === cat.name
+                    "shrink-0 whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-medium transition-all border",
+                    selectedCategory === cat
                       ? "bg-primary/20 text-primary border-primary/40"
                       : "bg-card text-muted-foreground border-border hover:border-primary/30 hover:text-foreground"
                   )}
                 >
-                  {cat.icon && <span>{cat.icon}</span>}
-                  {cat.name}
+                  {cat}
                 </button>
               ))}
             </div>
