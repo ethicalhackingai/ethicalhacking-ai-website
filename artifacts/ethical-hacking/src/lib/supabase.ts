@@ -20,6 +20,8 @@ export type AiTool = {
   logo_url?: string | null;
   is_featured: boolean;
   is_new: boolean;
+  open_source?: boolean | null;
+  free_trial?: boolean | null;
   date_added?: string;
   created_at?: string;
   updated_at?: string;

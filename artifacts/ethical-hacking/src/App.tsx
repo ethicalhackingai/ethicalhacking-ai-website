@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { HelmetProvider } from "react-helmet-async";
 import Home from "@/pages/home";
 import Tools from "@/pages/tools";
+import ToolDetail from "@/pages/tool-detail";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient({
@@ -32,6 +33,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/tools" component={Tools} />
+        <Route path="/tools/:slug" component={ToolDetail} />
         <Route component={NotFound} />
       </Switch>
     </>
