@@ -31,7 +31,7 @@ function resolveUrl(input: RequestInfo | URL): string {
   else if (isUrl(input)) url = input.toString();
   else url = input.url;
 
-  const apiBase = import.meta.env.VITE_API_BASE_URL as string | undefined;
+  const apiBase = (import.meta as unknown as { env: Record<string, string | undefined> }).env.VITE_API_BASE_URL;
 
   if (apiBase && url.startsWith("/")) {
     return `${apiBase.replace(/\/$/, "")}${url}`;
