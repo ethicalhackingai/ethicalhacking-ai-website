@@ -7,6 +7,7 @@ import { HelmetProvider } from "react-helmet-async";
 import Home from "@/pages/home";
 import Tools from "@/pages/tools";
 import ToolDetail from "@/pages/tool-detail";
+import BestToolsPage from "@/pages/BestToolsPage";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient({
@@ -34,6 +35,7 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/tools" component={Tools} />
         <Route path="/tools/:slug" component={ToolDetail} />
+        <Route path="/best/:slug" component={BestToolsPage} />
         <Route component={NotFound} />
       </Switch>
     </>
