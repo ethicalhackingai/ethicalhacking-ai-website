@@ -32,7 +32,8 @@ interface Tool {
 }
 
 export default function BestToolsPage() {
-  const { slug } = useParams<{ slug: string }>();
+  const params = useParams<{ slug: string }>();
+  const slug = params.slug ?? "";
   const [page, setPage] = useState<BestToolsPage | null>(null);
   const [tools, setTools] = useState<Tool[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,6 +49,7 @@ export default function BestToolsPage() {
         .eq('status', 'published')
         .single();
 
+      console.log('Page data:', pageData, 'Error:', pageError);
       if (pageError || !pageData) {
         setNotFound(true);
         setLoading(false);
