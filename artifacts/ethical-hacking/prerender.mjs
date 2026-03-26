@@ -361,7 +361,41 @@ async function main() {
     }
   }
 
-  console.log(`\n\n✅  Pre-rendered ${count} pages into ${DIST}/`);
+  // ── Sitemap ──────────────────────────────────────────────────────────────
+  const today = new Date().toISOString().slice(0, 10);
+
+  const sitemapUrls = [
+    { loc: SITE,         priority: '1.0', changefreq: 'daily' },
+    { loc: `${SITE}/tools`, priority: '0.9', changefreq: 'daily' },
+    ...(bestPages || []).map(p => ({
+      loc: `${SITE}/best/${p.slug}`,
+      priority: '0.8',
+      changefreq: 'weekly',
+    })),
+    ...tools.map(t => ({
+      loc: `${SITE}/tools/${t.slug}`,
+      priority: '0.7',
+      changefreq: 'weekly',
+    })),
+  ];
+
+  const sitemapXml = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...sitemapUrls.map(({ loc, priority, changefreq }) =>
+      `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`
+    ),
+    '</urlset>',
+  ].join('\n');
+
+  writeFileSync(join(DIST, 'sitemap.xml'), sitemapXml, 'utf8');
+  // Also keep public/ copy in sync for dev server
+  writeFileSync(join(__dirname, 'public', 'sitemap.xml'), sitemapXml, 'utf8');
+
+  const totalUrls = sitemapUrls.length;
+  console.log(`   ✓ sitemap.xml written (${totalUrls} URLs)`);
+
+  console.log(`\n✅  Pre-rendered ${count} pages into ${DIST}/`);
   console.log('   Breakdown:');
   console.log(`     1 homepage`);
   console.log(`     1 tools listing`);
