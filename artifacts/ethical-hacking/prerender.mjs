@@ -228,6 +228,49 @@ function bestToolsBody(page, tools) {
 </main>`;
 }
 
+function blogIndexBody(posts) {
+  const items = posts
+    .map(p => `<li>
+      <a href="/blog/${esc(p.slug)}"><strong>${esc(p.title)}</strong></a>
+      ${p.meta_description ? `<p>${esc(p.meta_description)}</p>` : ''}
+      <small>${p.category ? esc(p.category) + ' · ' : ''}${p.published_at ? new Date(p.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : ''}</small>
+    </li>`)
+    .join('\n    ');
+  return `
+<nav aria-label="breadcrumb">
+  <a href="/">Home</a> › <span>Blog</span>
+</nav>
+<main>
+  <h1>Cybersecurity Blog</h1>
+  <p>Expert guides, tutorials, and news on AI-powered ethical hacking, penetration testing, and cyber defense.</p>
+  <ul>${items}</ul>
+</main>`;
+}
+
+function blogPostBody(post) {
+  const isHtml = /<[a-z][\s\S]*>/i.test(post.content);
+  const contentHtml = isHtml
+    ? post.content
+    : post.content.split(/\n\n+/).map(p => `<p>${esc(p.trim())}</p>`).join('\n  ');
+  const dateStr = post.published_at
+    ? new Date(post.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    : '';
+  return `
+<nav aria-label="breadcrumb">
+  <a href="/">Home</a> › <a href="/blog">Blog</a> › <span>${esc(post.title)}</span>
+</nav>
+<article>
+  <header>
+    <h1>${esc(post.title)}</h1>
+    ${post.category ? `<p><strong>Category:</strong> ${esc(post.category)}</p>` : ''}
+    <p><strong>By</strong> ${esc(post.author || 'EthicalHacking.ai Team')} · <time>${dateStr}</time></p>
+  </header>
+  <section>
+    ${contentHtml}
+  </section>
+</article>`;
+}
+
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
@@ -254,6 +297,20 @@ async function main() {
     console.log(`   ⚠  best_tools_pages: ${bestErr.message} — skipping`);
   } else {
     console.log(`   ✓ ${(bestPages || []).length} best-tools pages fetched`);
+  }
+
+  // Fetch all published blog posts
+  const { data: blogPosts, error: blogErr } = await supabase
+    .from('blog_posts')
+    .select('slug, title, meta_title, meta_description, content, author, published_at, category')
+    .eq('status', 'published')
+    .order('published_at', { ascending: false })
+    .limit(500);
+
+  if (blogErr) {
+    console.log(`   ⚠  blog_posts: ${blogErr.message} — skipping`);
+  } else {
+    console.log(`   ✓ ${(blogPosts || []).length} blog posts fetched`);
   }
 
   // Build a slug→tool lookup for O(1) access
@@ -366,14 +423,58 @@ async function main() {
     }
   }
 
+  // 5. Blog pages
+  if (blogPosts && blogPosts.length > 0) {
+    // Blog index
+    savePage('/blog', buildPage({
+      title: 'Cybersecurity Blog | AI Hacking Guides & News | EthicalHacking.ai',
+      description: 'Expert guides, tutorials, and news on AI-powered cybersecurity, ethical hacking, penetration testing, and threat intelligence.',
+      canonical: `${SITE}/blog`,
+      bodyHtml: blogIndexBody(blogPosts),
+    }));
+    count++;
+    process.stdout.write(`\r   Pages generated: ${count}`);
+
+    // Individual blog post pages
+    for (const post of blogPosts) {
+      const postJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: post.title,
+        description: post.meta_description || undefined,
+        author: { '@type': 'Organization', name: post.author || 'EthicalHacking.ai Team' },
+        publisher: { '@type': 'Organization', name: 'EthicalHacking.ai', url: SITE },
+        datePublished: post.published_at,
+        url: `${SITE}/blog/${post.slug}`,
+      };
+      savePage(`/blog/${post.slug}`, buildPage({
+        title: post.meta_title || `${post.title} | EthicalHacking.ai`,
+        description: post.meta_description || '',
+        canonical: `${SITE}/blog/${post.slug}`,
+        jsonLd: postJsonLd,
+        bodyHtml: blogPostBody(post),
+      }));
+      count++;
+      process.stdout.write(`\r   Pages generated: ${count}`);
+    }
+  }
+
   // ── Sitemap ──────────────────────────────────────────────────────────────
   const today = new Date().toISOString().slice(0, 10);
 
   const sitemapUrls = [
-    { loc: SITE,         priority: '1.0', changefreq: 'daily' },
-    { loc: `${SITE}/tools`, priority: '0.9', changefreq: 'daily' },
+    { loc: SITE,              priority: '1.0', changefreq: 'daily' },
+    { loc: `${SITE}/tools`,   priority: '0.9', changefreq: 'daily' },
+    ...(blogPosts && blogPosts.length > 0
+      ? [{ loc: `${SITE}/blog`, priority: '0.9', changefreq: 'daily' }]
+      : []),
     ...(bestPages || []).map(p => ({
       loc: `${SITE}/best/${p.slug}`,
+      priority: '0.8',
+      changefreq: 'weekly',
+    })),
+    ...(blogPosts || []).map(p => ({
+      loc: `${SITE}/blog/${p.slug}`,
       priority: '0.8',
       changefreq: 'weekly',
     })),
@@ -406,6 +507,9 @@ async function main() {
   console.log(`     1 tools listing`);
   console.log(`     ${tools.length} tool detail pages`);
   console.log(`     ${(bestPages || []).length} best-tools pages`);
+  if (blogPosts && blogPosts.length > 0) {
+    console.log(`     1 blog index + ${blogPosts.length} blog post pages`);
+  }
 }
 
 main().catch(err => { console.error(err); process.exit(1); });
