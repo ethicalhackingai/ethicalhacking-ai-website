@@ -196,6 +196,11 @@ function toolDetailBody(tool) {
     ${tool.free_trial ? '<tr><th>Free Trial</th><td>Yes</td></tr>' : ''}
   </table>
   ${tool.website_url ? `<p><a href="${esc(tool.website_url)}" rel="noopener noreferrer" target="_blank">Visit ${esc(tool.name)} →</a></p>` : ''}
+  ${tool.long_description ? `
+<section>
+  <h2>Detailed Review</h2>
+  ${tool.long_description.split(/\n\n+/).map(p => `<p>${esc(p.trim())}</p>`).join('\n  ')}
+</section>` : ''}
 </main>`;
 }
 
@@ -232,7 +237,7 @@ async function main() {
   // Bulk-fetch all tools in one query
   const { data: tools, error: toolsErr } = await supabase
     .from('ai_tools')
-    .select('slug, name, short_description, category, pricing_model, rating, is_featured, is_new, open_source, free_trial, website_url')
+    .select('slug, name, short_description, long_description, category, pricing_model, rating, is_featured, is_new, open_source, free_trial, website_url')
     .order('name')
     .limit(1000);
 

@@ -313,6 +313,29 @@ export default function ToolDetail() {
               </motion.div>
             </section>
 
+            {/* Detailed Review */}
+            {tool.long_description && (
+              <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.15 }}
+                  className="glass-panel rounded-2xl p-6 md:p-8"
+                >
+                  <h2 className="text-xl font-bold font-display text-primary mb-5">
+                    Detailed Review
+                  </h2>
+                  <div className="space-y-4 text-muted-foreground leading-relaxed">
+                    {tool.long_description.split(/\n\n+/).map((para, i) => (
+                      <p key={i} className="text-sm md:text-base">
+                        {para.trim()}
+                      </p>
+                    ))}
+                  </div>
+                </motion.div>
+              </section>
+            )}
+
             {/* Related Tools */}
             {related.length > 0 && (
               <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16">
