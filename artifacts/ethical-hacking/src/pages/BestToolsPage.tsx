@@ -56,15 +56,17 @@ export default function BestToolsPage() {
       setPage(pageData);
 
       let toolData: Tool[] = [];
-      if (pageData.tool_slugs && pageData.tool_slugs.length > 0) {
+      let slugs = pageData.tool_slugs;
+      if (typeof slugs === 'string') {
+        try { slugs = JSON.parse(slugs); } catch(e) { slugs = []; }
+      }
+      if (slugs && slugs.length > 0) {
         const { data } = await supabase
           .from('ai_tools')
           .select('*')
-          .in('slug', pageData.tool_slugs);
+          .in('slug', slugs);
         if (data) {
-          toolData = pageData.tool_slugs
-            .map((s: string) => data.find((t: Tool) => t.slug === s))
-            .filter(Boolean) as Tool[];
+          toolData = slugs.map((s: string) => data.find((t: any) => t.slug === s)).filter(Boolean) as Tool[];
         }
       } else if (pageData.category_filter) {
         const { data } = await supabase
