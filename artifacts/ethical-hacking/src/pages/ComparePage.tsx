@@ -14,7 +14,10 @@ interface ComparisonData {
   title: string;
   meta_title: string | null;
   meta_description: string | null;
-  tool_slugs: string[];
+  tool_a_slug: string;
+  tool_a_name: string;
+  tool_b_slug: string;
+  tool_b_name: string;
   intro_text: string | null;
   verdict: string | null;
 }
@@ -106,7 +109,7 @@ export default function ComparePage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("comparison_pages")
-        .select("slug, title, meta_title, meta_description, tool_slugs, intro_text, verdict")
+        .select("slug, title, meta_title, meta_description, tool_a_slug, tool_a_name, tool_b_slug, tool_b_name, intro_text, verdict")
         .eq("slug", slug)
         .eq("status", "published")
         .single();
@@ -116,22 +119,24 @@ export default function ComparePage() {
     enabled: !!slug,
   });
 
+  const toolSlugs = comparison ? [comparison.tool_a_slug, comparison.tool_b_slug].filter(Boolean) : [];
+
   const { data: tools = [], isLoading: tLoading } = useQuery<AiTool[]>({
-    queryKey: ["compare_tools", comparison?.tool_slugs],
+    queryKey: ["compare_tools", toolSlugs],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("ai_tools")
         .select("id, slug, name, short_description, category, pricing_model, rating, open_source, free_trial, website_url, logo_url, is_featured, is_new")
-        .in("slug", comparison!.tool_slugs);
+        .in("slug", toolSlugs);
       if (error) throw error;
-      // Preserve the order from tool_slugs
+      // Preserve the order from tool_a → tool_b
       const bySlug = Object.fromEntries((data ?? []).map((t) => [t.slug, t]));
-      return comparison!.tool_slugs.map((s) => bySlug[s]).filter(Boolean);
+      return toolSlugs.map((s) => bySlug[s]).filter(Boolean);
     },
-    enabled: !!comparison?.tool_slugs?.length,
+    enabled: toolSlugs.length > 0,
   });
 
-  const isLoading = cLoading || tLoading;
+  const isLoading = cLoading || (toolSlugs.length > 0 && tLoading);
   const pageTitle = comparison?.meta_title || (comparison ? `${comparison.title} | EthicalHacking.ai` : "Compare Tools | EthicalHacking.ai");
 
   const jsonLd = comparison && tools.length > 0

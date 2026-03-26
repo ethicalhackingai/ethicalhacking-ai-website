@@ -11,7 +11,10 @@ interface ComparisonPage {
   slug: string;
   title: string;
   meta_description: string | null;
-  tool_slugs: string[];
+  tool_a_slug: string;
+  tool_a_name: string;
+  tool_b_slug: string;
+  tool_b_name: string;
 }
 
 export default function CompareIndex() {
@@ -22,7 +25,7 @@ export default function CompareIndex() {
   useEffect(() => {
     supabase
       .from("comparison_pages")
-      .select("slug, title, meta_description, tool_slugs")
+      .select("slug, title, meta_description, tool_a_slug, tool_a_name, tool_b_slug, tool_b_name")
       .eq("status", "published")
       .order("title")
       .then(({ data, error: err }) => {
@@ -103,7 +106,7 @@ export default function CompareIndex() {
                   <div className="flex items-center gap-2 text-primary">
                     <ArrowLeftRight className="w-4 h-4 shrink-0" />
                     <span className="text-xs font-mono font-semibold uppercase tracking-wider">
-                      {c.tool_slugs?.length ?? 0} tools compared
+                      {c.tool_a_name} vs {c.tool_b_name}
                     </span>
                   </div>
                   <h2 className="text-base font-bold text-foreground group-hover:text-primary transition-colors leading-snug">

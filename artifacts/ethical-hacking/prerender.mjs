@@ -276,7 +276,7 @@ function compareIndexBody(comparisons) {
     .map(c => `<li>
       <a href="/compare/${esc(c.slug)}"><strong>${esc(c.title)}</strong></a>
       ${c.meta_description ? `<p>${esc(c.meta_description)}</p>` : ''}
-      ${Array.isArray(c.tool_slugs) ? `<p>${c.tool_slugs.length} tools compared</p>` : ''}
+      <p>${esc(c.tool_a_name)} vs ${esc(c.tool_b_name)}</p>
     </li>`)
     .join('\n    ');
   return `
@@ -372,7 +372,7 @@ async function main() {
   // Fetch all published comparison pages
   const { data: comparisonPages, error: compErr } = await supabase
     .from('comparison_pages')
-    .select('slug, title, meta_title, meta_description, tool_slugs, intro_text, verdict')
+    .select('slug, title, meta_title, meta_description, tool_a_slug, tool_a_name, tool_b_slug, tool_b_name, intro_text, verdict')
     .eq('status', 'published')
     .order('title')
     .limit(500);
@@ -534,8 +534,8 @@ async function main() {
     // Collect all tool slugs needed across all comparisons
     const allCompToolSlugs = new Set();
     for (const comp of comparisonPages) {
-      const slugs = Array.isArray(comp.tool_slugs) ? comp.tool_slugs : [];
-      slugs.forEach(s => allCompToolSlugs.add(s));
+      if (comp.tool_a_slug) allCompToolSlugs.add(comp.tool_a_slug);
+      if (comp.tool_b_slug) allCompToolSlugs.add(comp.tool_b_slug);
     }
 
     // Batch-fetch any comparison tools not already in memory
@@ -560,7 +560,7 @@ async function main() {
 
     // Individual comparison pages
     for (const comp of comparisonPages) {
-      const slugs = Array.isArray(comp.tool_slugs) ? comp.tool_slugs : [];
+      const slugs = [comp.tool_a_slug, comp.tool_b_slug].filter(Boolean);
       const compTools = slugs.map(s => toolBySlug[s]).filter(Boolean);
 
       const jsonLd = {
