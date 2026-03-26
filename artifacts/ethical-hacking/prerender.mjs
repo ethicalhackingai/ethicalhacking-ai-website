@@ -103,23 +103,53 @@ function savePage(urlPath, html) {
 // ---------------------------------------------------------------------------
 // Body HTML generators — semantic, crawler-friendly, style-free
 // ---------------------------------------------------------------------------
-function homepageBody() {
+function homepageBody(tools, bestPages) {
+  // Top 8 by rating
+  const top8 = [...tools].sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 8);
+
+  // Category counts
+  const catCounts = {};
+  tools.forEach(t => { if (t.category) catCounts[t.category] = (catCounts[t.category] || 0) + 1; });
+  const cats = Object.entries(catCounts).sort((a, b) => b[1] - a[1]);
+
+  const toolCards = top8
+    .map(t => `<li>
+      <a href="/tools/${esc(t.slug)}"><strong>${esc(t.name)}</strong></a>
+      — ${esc(t.short_description || '')}
+      (${esc(t.category)} · ${esc(t.pricing_model)} · ${'★'.repeat(Math.floor(t.rating || 0))} ${t.rating}/5)
+    </li>`)
+    .join('\n    ');
+
+  const catLinks = cats
+    .map(([cat, count]) => `<li><a href="/tools?category=${encodeURIComponent(cat)}">${esc(cat)}</a> (${count})</li>`)
+    .join('\n    ');
+
+  const bestLinks = (bestPages || [])
+    .map(p => `<li>
+      <a href="/best/${esc(p.slug)}"><strong>${esc(p.heading || p.title)}</strong></a>
+      ${p.meta_description ? `— ${esc(p.meta_description)}` : ''}
+    </li>`)
+    .join('\n    ');
+
   return `
 <header>
-  <h1>EthicalHacking.ai — AI-Powered Cybersecurity Intelligence Platform</h1>
-  <p>Your central hub for AI-powered ethical hacking and cybersecurity tools.
-     Discover 500+ specialized security tools, threat intelligence resources,
-     vulnerability scanners, and penetration testing platforms.</p>
-  <a href="/tools">Browse AI Security Tools Directory →</a>
+  <h1>The #1 AI Cybersecurity Tools Directory</h1>
+  <p>500+ AI-powered security tools reviewed, compared, and rated by experts.
+     Find the right tool for penetration testing, red teaming, cloud security, and more.</p>
+  <a href="/tools">Browse All 500+ Tools →</a>
 </header>
 <section>
-  <h2>Why EthicalHacking.ai?</h2>
-  <ul>
-    <li>500+ curated AI-powered cybersecurity tools</li>
-    <li>Real-time threat intelligence and security insights</li>
-    <li>Penetration testing, vulnerability scanning, and OSINT tools</li>
-    <li>Regularly updated with the latest security technology</li>
-  </ul>
+  <h2>Top-Rated AI Security Tools</h2>
+  <ul>${toolCards}</ul>
+  <a href="/tools">View all ${tools.length} tools →</a>
+</section>
+<section>
+  <h2>Browse by Category</h2>
+  <ul>${catLinks}</ul>
+</section>
+<section>
+  <h2>Best-Of Lists</h2>
+  <ul>${bestLinks}</ul>
 </section>`;
 }
 
@@ -228,10 +258,10 @@ async function main() {
 
   // 1. Homepage
   savePage('/', buildPage({
-    title: 'EthicalHacking.ai - AI-Powered Cybersecurity Intelligence Platform',
-    description: 'Discover 500+ AI-powered cybersecurity tools for ethical hacking, penetration testing, threat intelligence, and vulnerability scanning.',
+    title: 'EthicalHacking.ai — 500+ AI Cybersecurity Tools Directory | Reviews & Comparisons',
+    description: 'Discover the best AI tools for ethical hacking, penetration testing, and cyber defense. 500+ expert-reviewed tools with ratings, comparisons, and guides.',
     canonical: SITE,
-    bodyHtml: homepageBody(),
+    bodyHtml: homepageBody(tools, bestPages || []),
   }));
   count++;
   process.stdout.write(`\r   Pages generated: ${count}`);
