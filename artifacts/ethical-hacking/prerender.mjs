@@ -271,6 +271,62 @@ function blogPostBody(post) {
 </article>`;
 }
 
+function compareIndexBody(comparisons) {
+  const items = comparisons
+    .map(c => `<li>
+      <a href="/compare/${esc(c.slug)}"><strong>${esc(c.title)}</strong></a>
+      ${c.meta_description ? `<p>${esc(c.meta_description)}</p>` : ''}
+      ${Array.isArray(c.tool_slugs) ? `<p>${c.tool_slugs.length} tools compared</p>` : ''}
+    </li>`)
+    .join('\n    ');
+  return `
+<nav aria-label="breadcrumb">
+  <a href="/">Home</a> › <span>Compare</span>
+</nav>
+<main>
+  <h1>AI Cybersecurity Tool Comparisons</h1>
+  <p>Side-by-side breakdowns to help you pick the right AI security tool for your needs.</p>
+  <ul>${items}</ul>
+</main>`;
+}
+
+function comparePageBody(comparison, tools) {
+  const rows = [
+    { label: 'Category',    val: t => esc(t.category) },
+    { label: 'Pricing',     val: t => esc(t.pricing_model) },
+    { label: 'Rating',      val: t => t.rating ? `${'★'.repeat(Math.floor(t.rating))} ${t.rating}/5` : 'N/A' },
+    { label: 'Open Source', val: t => t.open_source ? 'Yes' : 'No' },
+    { label: 'Free Trial',  val: t => t.free_trial ? 'Yes' : 'No' },
+  ];
+
+  const headerCells = tools.map(t =>
+    `<th><a href="/tools/${esc(t.slug)}">${esc(t.name)}</a></th>`
+  ).join('');
+
+  const tableRows = rows.map(row =>
+    `<tr><th>${row.label}</th>${tools.map(t => `<td>${row.val(t)}</td>`).join('')}</tr>`
+  ).join('\n    ');
+
+  const verdictSection = comparison.verdict
+    ? `\n<section>\n  <h2>Our Verdict</h2>\n  ${comparison.verdict.split(/\n\n+/).map(p => `<p>${esc(p.trim())}</p>`).join('\n  ')}\n</section>`
+    : '';
+
+  return `
+<nav aria-label="breadcrumb">
+  <a href="/">Home</a> › <a href="/compare">Compare</a> › <span>${esc(comparison.title)}</span>
+</nav>
+<main>
+  <h1>${esc(comparison.title)}</h1>
+  ${comparison.intro_text ? `<p>${esc(comparison.intro_text)}</p>` : ''}
+  <table>
+    <thead><tr><th>Feature</th>${headerCells}</tr></thead>
+    <tbody>
+    ${tableRows}
+    </tbody>
+  </table>${verdictSection}
+</main>`;
+}
+
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
@@ -311,6 +367,20 @@ async function main() {
     console.log(`   ⚠  blog_posts: ${blogErr.message} — skipping`);
   } else {
     console.log(`   ✓ ${(blogPosts || []).length} blog posts fetched`);
+  }
+
+  // Fetch all published comparison pages
+  const { data: comparisonPages, error: compErr } = await supabase
+    .from('comparison_pages')
+    .select('slug, title, meta_title, meta_description, tool_slugs, intro_text, verdict')
+    .eq('status', 'published')
+    .order('title')
+    .limit(500);
+
+  if (compErr) {
+    console.log(`   ⚠  comparison_pages: ${compErr.message} — skipping`);
+  } else {
+    console.log(`   ✓ ${(comparisonPages || []).length} comparison pages fetched`);
   }
 
   // Build a slug→tool lookup for O(1) access
@@ -459,6 +529,72 @@ async function main() {
     }
   }
 
+  // 6. Comparison pages
+  if (comparisonPages && comparisonPages.length > 0) {
+    // Collect all tool slugs needed across all comparisons
+    const allCompToolSlugs = new Set();
+    for (const comp of comparisonPages) {
+      const slugs = Array.isArray(comp.tool_slugs) ? comp.tool_slugs : [];
+      slugs.forEach(s => allCompToolSlugs.add(s));
+    }
+
+    // Batch-fetch any comparison tools not already in memory
+    const missingCompSlugs = [...allCompToolSlugs].filter(s => !toolBySlug[s]);
+    if (missingCompSlugs.length > 0) {
+      const { data: extra } = await supabase
+        .from('ai_tools')
+        .select('slug, name, short_description, category, pricing_model, rating, open_source, free_trial, website_url')
+        .in('slug', missingCompSlugs);
+      (extra || []).forEach(t => { toolBySlug[t.slug] = t; });
+    }
+
+    // Compare index
+    savePage('/compare', buildPage({
+      title: 'AI Cybersecurity Tool Comparisons | EthicalHacking.ai',
+      description: 'Side-by-side comparisons of the best AI cybersecurity tools. Find the right tool for penetration testing, threat intelligence, cloud security, and more.',
+      canonical: `${SITE}/compare`,
+      bodyHtml: compareIndexBody(comparisonPages),
+    }));
+    count++;
+    process.stdout.write(`\r   Pages generated: ${count}`);
+
+    // Individual comparison pages
+    for (const comp of comparisonPages) {
+      const slugs = Array.isArray(comp.tool_slugs) ? comp.tool_slugs : [];
+      const compTools = slugs.map(s => toolBySlug[s]).filter(Boolean);
+
+      const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: comp.title,
+        description: comp.meta_description || undefined,
+        url: `${SITE}/compare/${comp.slug}`,
+        numberOfItems: compTools.length,
+        itemListElement: compTools.map((t, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          item: {
+            '@type': 'SoftwareApplication',
+            name: t.name,
+            url: `${SITE}/tools/${t.slug}`,
+            applicationCategory: 'SecurityApplication',
+            ...(t.rating && { aggregateRating: { '@type': 'AggregateRating', ratingValue: t.rating, bestRating: 5 } }),
+          },
+        })),
+      };
+
+      savePage(`/compare/${comp.slug}`, buildPage({
+        title: comp.meta_title || `${comp.title} | EthicalHacking.ai`,
+        description: comp.meta_description || '',
+        canonical: `${SITE}/compare/${comp.slug}`,
+        jsonLd,
+        bodyHtml: comparePageBody(comp, compTools),
+      }));
+      count++;
+      process.stdout.write(`\r   Pages generated: ${count}`);
+    }
+  }
+
   // ── Sitemap ──────────────────────────────────────────────────────────────
   const today = new Date().toISOString().slice(0, 10);
 
@@ -468,6 +604,9 @@ async function main() {
     ...(blogPosts && blogPosts.length > 0
       ? [{ loc: `${SITE}/blog`, priority: '0.9', changefreq: 'daily' }]
       : []),
+    ...(comparisonPages && comparisonPages.length > 0
+      ? [{ loc: `${SITE}/compare`, priority: '0.9', changefreq: 'weekly' }]
+      : []),
     ...(bestPages || []).map(p => ({
       loc: `${SITE}/best/${p.slug}`,
       priority: '0.8',
@@ -475,6 +614,11 @@ async function main() {
     })),
     ...(blogPosts || []).map(p => ({
       loc: `${SITE}/blog/${p.slug}`,
+      priority: '0.8',
+      changefreq: 'weekly',
+    })),
+    ...(comparisonPages || []).map(c => ({
+      loc: `${SITE}/compare/${c.slug}`,
       priority: '0.8',
       changefreq: 'weekly',
     })),
@@ -509,6 +653,9 @@ async function main() {
   console.log(`     ${(bestPages || []).length} best-tools pages`);
   if (blogPosts && blogPosts.length > 0) {
     console.log(`     1 blog index + ${blogPosts.length} blog post pages`);
+  }
+  if (comparisonPages && comparisonPages.length > 0) {
+    console.log(`     1 compare index + ${comparisonPages.length} comparison pages`);
   }
 }
 

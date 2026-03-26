@@ -10,6 +10,8 @@ import ToolDetail from "@/pages/tool-detail";
 import BestToolsPage from "@/pages/BestToolsPage";
 import BlogIndex from "@/pages/BlogIndex";
 import BlogPost from "@/pages/BlogPost";
+import CompareIndex from "@/pages/CompareIndex";
+import ComparePage from "@/pages/ComparePage";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient({
@@ -40,6 +42,8 @@ function Router() {
         <Route path="/best/:slug" component={BestToolsPage} />
         <Route path="/blog" component={BlogIndex} />
         <Route path="/blog/:slug" component={BlogPost} />
+        <Route path="/compare" component={CompareIndex} />
+        <Route path="/compare/:slug" component={ComparePage} />
         <Route component={NotFound} />
       </Switch>
     </>
