@@ -179,9 +179,16 @@ export default function BlogPost() {
               </div>
 
               {/* Title */}
-              <h1 className="text-3xl md:text-4xl font-extrabold text-white leading-tight mb-8">
+              <h1 className="text-3xl md:text-4xl font-extrabold text-white leading-tight mb-3">
                 {post.title}
               </h1>
+
+              {/* Byline */}
+              <p className="text-sm text-muted-foreground mb-8">
+                By <span className="text-gray-300">Shaariq Sami</span>
+                {" · "}Published {formatDate(post.published_at)}
+                {" · "}Updated {formatDate(post.published_at)}
+              </p>
 
               {/* Content */}
               <div className="glass-panel rounded-2xl p-6 md:p-10">

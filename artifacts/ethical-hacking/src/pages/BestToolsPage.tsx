@@ -170,7 +170,8 @@ export default function BestToolsPage() {
       {/* Hero */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-gradient-to-r from-cyan-900/30 to-blue-900/30 rounded-2xl p-8 border border-cyan-800/30">
-          <h1 className="text-3xl md:text-4xl font-bold mb-3">{page.heading}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">{page.heading}</h1>
+          <p className="text-sm text-gray-400 mb-4">Curated by EthicalHacking.ai Team · Last updated March 27, 2026</p>
           <p className="text-lg text-cyan-300 mb-4">{page.subheading}</p>
           <p className="text-gray-300 max-w-3xl leading-relaxed">{page.intro_text}</p>
           <div className="mt-4 flex gap-3 text-sm">

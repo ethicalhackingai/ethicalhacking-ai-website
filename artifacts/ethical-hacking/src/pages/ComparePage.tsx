@@ -226,9 +226,12 @@ export default function ComparePage() {
                     {tools.length} Tools Compared
                   </span>
                 </div>
-                <h1 className="text-3xl md:text-4xl font-extrabold text-white leading-tight mb-4">
+                <h1 className="text-3xl md:text-4xl font-extrabold text-white leading-tight mb-2">
                   {comparison.title}
                 </h1>
+                <p className="text-sm text-muted-foreground mb-4">
+                  By EthicalHacking.ai Team · Last updated March 27, 2026
+                </p>
                 {comparison.intro_text && (
                   <p className="text-gray-400 text-base leading-relaxed max-w-3xl">
                     {comparison.intro_text}
