@@ -82,14 +82,15 @@ export default function BlogPost() {
         "@type": "Article",
         headline: post.title,
         description: post.meta_description ?? undefined,
-        author: { "@type": "Organization", name: post.author || "EthicalHacking.ai Team" },
+        author: { "@type": "Person", name: "Shaariq Sami" },
         publisher: {
           "@type": "Organization",
           name: "EthicalHacking.ai",
           url: "https://ethicalhacking.ai",
         },
         datePublished: post.published_at,
-        url: `https://ethicalhacking.ai/blog/${post.slug}`,
+        dateModified: post.published_at,
+        mainEntityOfPage: `https://ethicalhacking.ai/blog/${post.slug}`,
       })
     : null;
 

@@ -128,28 +128,15 @@ export default function BestToolsPage() {
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': page.schema_type || 'ItemList',
-    name: page.heading,
+    '@type': 'ItemList',
+    name: page.meta_title || page.heading,
     description: page.meta_description,
-    url: `https://ethicalhacking.ai/best/${page.slug}`,
     numberOfItems: tools.length,
     itemListElement: tools.map((tool, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      item: {
-        '@type': 'SoftwareApplication',
-        name: tool.name,
-        description: tool.short_description,
-        url: `https://ethicalhacking.ai/tools/${tool.slug}`,
-        applicationCategory: tool.category,
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: tool.rating,
-          bestRating: 5,
-          worstRating: 1,
-          ratingCount: Math.floor(Math.random() * 200) + 50,
-        },
-      },
+      name: tool.name,
+      url: `https://ethicalhacking.ai/tools/${tool.slug}`,
     })),
   };
 

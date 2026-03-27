@@ -139,25 +139,19 @@ export default function ComparePage() {
   const isLoading = cLoading || (toolSlugs.length > 0 && tLoading);
   const pageTitle = comparison?.meta_title || (comparison ? `${comparison.title} | EthicalHacking.ai` : "Compare Tools | EthicalHacking.ai");
 
-  const jsonLd = comparison && tools.length > 0
+  const jsonLd = comparison
     ? JSON.stringify({
         "@context": "https://schema.org",
-        "@type": "ItemList",
-        name: comparison.title,
+        "@type": "Article",
+        headline: comparison.title,
         description: comparison.meta_description ?? undefined,
-        url: `https://ethicalhacking.ai/compare/${comparison.slug}`,
-        numberOfItems: tools.length,
-        itemListElement: tools.map((t, i) => ({
-          "@type": "ListItem",
-          position: i + 1,
-          item: {
-            "@type": "SoftwareApplication",
-            name: t.name,
-            url: `https://ethicalhacking.ai/tools/${t.slug}`,
-            applicationCategory: "SecurityApplication",
-            ...(t.rating && { aggregateRating: { "@type": "AggregateRating", ratingValue: t.rating, bestRating: 5 } }),
-          },
-        })),
+        author: { "@type": "Person", name: "Shaariq Sami" },
+        publisher: {
+          "@type": "Organization",
+          name: "EthicalHacking.ai",
+          url: "https://ethicalhacking.ai",
+        },
+        mainEntityOfPage: `https://ethicalhacking.ai/compare/${comparison.slug}`,
       })
     : null;
 

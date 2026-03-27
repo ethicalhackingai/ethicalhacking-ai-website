@@ -96,22 +96,22 @@ export default function ToolDetail() {
         "@type": "SoftwareApplication",
         name: tool.name,
         description: tool.short_description,
-        url: tool.website_url,
         applicationCategory: "SecurityApplication",
+        operatingSystem: "Web",
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD",
+        },
         ...(tool.rating && {
           aggregateRating: {
             "@type": "AggregateRating",
-            ratingValue: tool.rating,
-            bestRating: 5,
-            worstRating: 1,
+            ratingValue: String(tool.rating),
+            bestRating: "5",
+            worstRating: "1",
+            ratingCount: "1",
           },
         }),
-        offers: {
-          "@type": "Offer",
-          price: tool.pricing_model === "Free/OSS" ? "0" : undefined,
-          priceCurrency: "USD",
-          category: tool.pricing_model,
-        },
       })
     : null;
 

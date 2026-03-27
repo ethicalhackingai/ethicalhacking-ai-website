@@ -95,6 +95,27 @@ export default function Home() {
         <meta property="og:image" content="https://ethicalhacking.ai/opengraph.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="theme-color" content="#0A0E27" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "EthicalHacking.ai",
+          "url": "https://ethicalhacking.ai",
+          "logo": "https://ethicalhacking.ai/logo.png",
+          "description": "The largest AI-powered cybersecurity tools directory with 500+ expert-reviewed tools.",
+          "founder": { "@type": "Person", "name": "Shaariq Sami" },
+          "sameAs": ["https://www.linkedin.com/in/shaariqsami"]
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "EthicalHacking.ai",
+          "url": "https://ethicalhacking.ai",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://ethicalhacking.ai/tools?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        })}</script>
       </Helmet>
 
       <BackgroundGrid />
