@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'wouter';
 import { supabase } from '../lib/supabase';
 import { NewsletterSignup } from '@/components/NewsletterSignup';
+import { Footer } from '@/components/sections/footer';
 
 interface BestToolsPage {
   slug: string;
@@ -233,11 +234,7 @@ export default function BestToolsPage() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="border-t border-gray-800 py-8 text-center text-gray-500 text-sm">
-        <p>© 2025 EthicalHacking.ai</p>
-        <p className="mt-1">hello@ethicalhacking.ai | <Link to="/privacy" className="hover:text-white">Privacy Policy</Link> | <Link to="/terms" className="hover:text-white">Terms of Service</Link></p>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -83,6 +83,54 @@ function buildPage({ title, description, canonical, jsonLd, bodyHtml }) {
 </head>
 <body>
   <div id="root">${bodyHtml}</div>
+  <footer style="background:#070b1f;border-top:1px solid #1e2a4a;padding:48px 24px 0">
+    <div style="max-width:1152px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px;padding-bottom:40px">
+      <div>
+        <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;margin:0 0 16px">Tools</p>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
+          <li><a href="/tools" style="font-size:14px;color:#6b7280;text-decoration:none">Browse All Tools</a></li>
+          <li><a href="/tools/nmap" style="font-size:14px;color:#6b7280;text-decoration:none">Nmap</a></li>
+          <li><a href="/tools/burp-suite" style="font-size:14px;color:#6b7280;text-decoration:none">Burp Suite</a></li>
+          <li><a href="/tools/metasploit" style="font-size:14px;color:#6b7280;text-decoration:none">Metasploit</a></li>
+          <li><a href="/tools/kali-linux" style="font-size:14px;color:#6b7280;text-decoration:none">Kali Linux</a></li>
+          <li><a href="/tools/wireshark" style="font-size:14px;color:#6b7280;text-decoration:none">Wireshark</a></li>
+        </ul>
+      </div>
+      <div>
+        <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;margin:0 0 16px">Best Of</p>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
+          <li><a href="/best/best-ai-penetration-testing-tools" style="font-size:14px;color:#6b7280;text-decoration:none">Best AI Pen Testing Tools</a></li>
+          <li><a href="/best/best-ai-vulnerability-scanners" style="font-size:14px;color:#6b7280;text-decoration:none">Best AI Vulnerability Scanners</a></li>
+          <li><a href="/best/best-free-cybersecurity-tools" style="font-size:14px;color:#6b7280;text-decoration:none">Best Free Cybersecurity Tools</a></li>
+          <li><a href="/best/best-ai-osint-tools" style="font-size:14px;color:#6b7280;text-decoration:none">Best AI OSINT Tools</a></li>
+          <li><a href="/best/best-ai-cloud-security-tools" style="font-size:14px;color:#6b7280;text-decoration:none">Best AI Cloud Security Tools</a></li>
+          <li><a href="/best/best-ai-endpoint-security-tools" style="font-size:14px;color:#6b7280;text-decoration:none">Best AI Endpoint Security Tools</a></li>
+        </ul>
+      </div>
+      <div>
+        <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;margin:0 0 16px">Compare</p>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
+          <li><a href="/compare/burp-suite-vs-owasp-zap" style="font-size:14px;color:#6b7280;text-decoration:none">Burp Suite vs OWASP ZAP</a></li>
+          <li><a href="/compare/crowdstrike-vs-sentinelone" style="font-size:14px;color:#6b7280;text-decoration:none">CrowdStrike vs SentinelOne</a></li>
+          <li><a href="/compare/nmap-vs-shodan" style="font-size:14px;color:#6b7280;text-decoration:none">Nmap vs Shodan</a></li>
+          <li><a href="/compare/kali-linux-vs-parrot-os" style="font-size:14px;color:#6b7280;text-decoration:none">Kali Linux vs Parrot OS</a></li>
+          <li><a href="/compare/hackthebox-vs-tryhackme" style="font-size:14px;color:#6b7280;text-decoration:none">HackTheBox vs TryHackMe</a></li>
+        </ul>
+      </div>
+      <div>
+        <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;margin:0 0 16px">Resources</p>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
+          <li><a href="/blog" style="font-size:14px;color:#6b7280;text-decoration:none">Blog</a></li>
+          <li><a href="/about" style="font-size:14px;color:#6b7280;text-decoration:none">About</a></li>
+          <li><a href="/compare" style="font-size:14px;color:#6b7280;text-decoration:none">All Comparisons</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:1px solid #1e2a4a;padding:20px 0;display:flex;justify-content:space-between;align-items:center;max-width:1152px;margin:0 auto;flex-wrap:wrap;gap:8px">
+      <p style="font-size:12px;color:#4b5563;margin:0">© 2026 EthicalHacking.ai — The #1 AI Cybersecurity Tools Directory</p>
+      <a href="mailto:contact@ethicalhacking.ai" style="font-size:12px;color:#4b5563;text-decoration:none;font-family:monospace">contact@ethicalhacking.ai</a>
+    </div>
+  </footer>
 </body>
 </html>`;
 }
