@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import { BackgroundGrid } from "@/components/background-grid";
 import { Navbar } from "@/components/layout/navbar";
-import { Newsletter } from "@/components/sections/newsletter";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { Footer } from "@/components/sections/footer";
 import { supabase } from "../lib/supabase";
 
@@ -268,7 +268,7 @@ export default function Home() {
         </section>
 
         {/* ── Newsletter ── */}
-        <Newsletter />
+        <NewsletterSignup />
 
       </main>
 

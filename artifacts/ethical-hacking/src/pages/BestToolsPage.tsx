@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'wouter';
 import { supabase } from '../lib/supabase';
+import { NewsletterSignup } from '@/components/NewsletterSignup';
 
 interface BestToolsPage {
   slug: string;
@@ -235,15 +236,8 @@ export default function BestToolsPage() {
           ))}
         </div>
 
-        {/* Newsletter CTA */}
-        <div className="mt-12 bg-gradient-to-r from-cyan-900/40 to-blue-900/40 rounded-2xl p-8 border border-cyan-800/30 text-center">
-          <h2 className="text-2xl font-bold mb-3">Stay Updated on AI Security Tools</h2>
-          <p className="text-gray-300 mb-6 max-w-xl mx-auto">Get weekly updates on the latest AI-powered cybersecurity tools, exclusive reviews, and expert insights.</p>
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input type="email" placeholder="Enter your email" className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none" />
-            <button className="bg-cyan-600 hover:bg-cyan-500 text-white font-semibold px-6 py-3 rounded-lg transition-colors">Subscribe</button>
-          </div>
-        </div>
+        {/* Newsletter Signup */}
+        <NewsletterSignup />
 
         {/* Browse All Tools link */}
         <div className="mt-8 text-center">

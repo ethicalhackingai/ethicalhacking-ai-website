@@ -6,6 +6,7 @@ import { Loader2, AlertCircle, CalendarDays, Tag, User } from "lucide-react";
 import { BackgroundGrid } from "@/components/background-grid";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/sections/footer";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { supabase } from "@/lib/supabase";
 
 interface BlogPostData {
@@ -200,6 +201,7 @@ export default function BlogPost() {
         </div>
       </main>
 
+      <NewsletterSignup />
       <Footer />
     </div>
   );
