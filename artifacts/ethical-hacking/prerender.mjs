@@ -595,12 +595,45 @@ async function main() {
     }
   }
 
+  // 7. About page
+  savePage('/about', buildPage({
+    title: 'About EthicalHacking.ai — Our Mission & Methodology',
+    description: 'Learn about EthicalHacking.ai, the largest AI cybersecurity tools directory with 500+ expert-reviewed tools. Our mission, rating methodology, and the team behind the platform.',
+    canonical: `${SITE}/about`,
+    bodyHtml: `
+<nav aria-label="breadcrumb">
+  <a href="/">Home</a> › <span>About</span>
+</nav>
+<main>
+  <h1>About EthicalHacking.ai</h1>
+  <p>EthicalHacking.ai is the largest AI-powered cybersecurity tools directory, built to help security professionals find the right tools faster. We catalog over 500 tools across penetration testing, red teaming, cloud security, endpoint protection, OSINT, DevSecOps, and more. Every tool is reviewed, categorized, and rated by our team.</p>
+
+  <h2>Our Mission</h2>
+  <p>The cybersecurity tool landscape is overwhelming. New AI-powered tools launch every week, and security teams waste hours evaluating options. Our mission is to be the single trusted source where penetration testers, red teamers, bug bounty hunters, and security engineers can discover, compare, and choose the best tools for their workflow.</p>
+
+  <h2>How We Rate Tools</h2>
+  <p>Every tool on EthicalHacking.ai is evaluated across five criteria: feature depth, ease of use, pricing and value, community and support, and AI capability. Ratings are on a scale of 1 to 5 and represent the consensus of our editorial team. We update ratings quarterly as tools evolve. We are editorially independent and our ratings are not influenced by vendors.</p>
+
+  <h2>What You Will Find Here</h2>
+  <p>Our platform includes 500+ individual tool reviews with detailed descriptions, 16 curated best-of lists covering every major security category, 13 head-to-head comparison pages for popular tool matchups, and a growing library of expert guides and blog articles on cybersecurity topics.</p>
+
+  <h2>The Team</h2>
+  <p>EthicalHacking.ai was founded by Shaariq Sami, a domain investor and digital entrepreneur passionate about cybersecurity and AI. The platform is maintained by a small editorial team committed to providing accurate, unbiased, and up-to-date information for the global security community.</p>
+
+  <h2>Contact Us</h2>
+  <p>Have a question, tool suggestion, or partnership inquiry? Reach out to us at contact@ethicalhacking.ai. We also welcome contributions from security professionals who want to share their expertise through guest articles or tool reviews.</p>
+</main>`,
+  }));
+  count++;
+  process.stdout.write(`\r   Pages generated: ${count}`);
+
   // ── Sitemap ──────────────────────────────────────────────────────────────
   const today = new Date().toISOString().slice(0, 10);
 
   const sitemapUrls = [
     { loc: SITE,              priority: '1.0', changefreq: 'daily' },
     { loc: `${SITE}/tools`,   priority: '0.9', changefreq: 'daily' },
+    { loc: `${SITE}/about`,   priority: '0.8', changefreq: 'monthly' },
     ...(blogPosts && blogPosts.length > 0
       ? [{ loc: `${SITE}/blog`, priority: '0.9', changefreq: 'daily' }]
       : []),

@@ -12,6 +12,7 @@ import BlogIndex from "@/pages/BlogIndex";
 import BlogPost from "@/pages/BlogPost";
 import CompareIndex from "@/pages/CompareIndex";
 import ComparePage from "@/pages/ComparePage";
+import About from "@/pages/About";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient({
@@ -44,6 +45,7 @@ function Router() {
         <Route path="/blog/:slug" component={BlogPost} />
         <Route path="/compare" component={CompareIndex} />
         <Route path="/compare/:slug" component={ComparePage} />
+        <Route path="/about" component={About} />
         <Route component={NotFound} />
       </Switch>
     </>
