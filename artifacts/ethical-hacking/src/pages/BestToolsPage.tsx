@@ -4,6 +4,11 @@ import { supabase } from '../lib/supabase';
 import { NewsletterSignup } from '@/components/NewsletterSignup';
 import { Footer } from '@/components/sections/footer';
 
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
 interface BestToolsPage {
   slug: string;
   title: string;
@@ -17,6 +22,8 @@ interface BestToolsPage {
   tool_slugs: string[];
   schema_type: string;
   status: string;
+  long_content?: string | null;
+  faq?: FaqItem[] | null;
 }
 
 interface Tool {
@@ -141,12 +148,33 @@ export default function BestToolsPage() {
     })),
   };
 
+  const faqItems: FaqItem[] = Array.isArray(page.faq) && page.faq.length > 0 ? page.faq : [];
+
+  const faqJsonLd = faqItems.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  } : null;
+
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       {/* Header */}
       <header className="border-b border-gray-800 bg-gray-950/80 backdrop-blur-sm sticky top-0 z-50">
@@ -224,6 +252,33 @@ export default function BestToolsPage() {
             </div>
           ))}
         </div>
+
+        {/* Long Content */}
+        {page.long_content && (
+          <div
+            className="mt-12 prose prose-invert prose-cyan max-w-none
+              prose-h2:text-2xl prose-h2:font-bold prose-h2:text-white prose-h2:mt-10 prose-h2:mb-4
+              prose-h3:text-xl prose-h3:font-semibold prose-h3:text-cyan-300 prose-h3:mt-8 prose-h3:mb-3
+              prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-4
+              prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:text-cyan-300"
+            dangerouslySetInnerHTML={{ __html: page.long_content }}
+          />
+        )}
+
+        {/* FAQ Section */}
+        {faqItems.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+            <div className="space-y-6">
+              {faqItems.map((item, i) => (
+                <div key={i} className="bg-gray-900 rounded-xl border border-gray-800 p-6">
+                  <h3 className="text-lg font-semibold text-cyan-300 mb-3">{item.question}</h3>
+                  <p className="text-gray-300 leading-relaxed">{item.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Newsletter Signup */}
         <NewsletterSignup />

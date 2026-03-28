@@ -78,8 +78,7 @@ function buildPage({ title, description, canonical, jsonLd, bodyHtml }) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   ${cssLinkTags}
-  ${scriptTags}${jsonLd ? `
-  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ''}
+  ${scriptTags}${jsonLd ? (Array.isArray(jsonLd) ? jsonLd.map(ld => `\n  <script type="application/ld+json">${JSON.stringify(ld)}</script>`).join('') : `\n  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`) : ''}
 </head>
 <body>
   <div id="root">${bodyHtml}</div>
@@ -261,6 +260,17 @@ function bestToolsBody(page, tools) {
         ${t.rating ? `<p>Rating: ${'★'.repeat(Math.floor(t.rating))} ${t.rating}/5</p>` : ''}
       </li>`)
     .join('\n      ');
+
+  const faqItems = Array.isArray(page.faq) && page.faq.length > 0 ? page.faq : [];
+  const faqHtml = faqItems.length > 0 ? `
+<section>
+  <h2>Frequently Asked Questions</h2>
+  ${faqItems.map(item => `<div>
+    <h3>${esc(item.question)}</h3>
+    <p>${esc(item.answer)}</p>
+  </div>`).join('\n  ')}
+</section>` : '';
+
   return `
 <nav aria-label="breadcrumb">
   <a href="/">Home</a> › <a href="/tools">AI Tools</a> › <span>${esc(page.heading)}</span>
@@ -273,6 +283,8 @@ function bestToolsBody(page, tools) {
   <ol>
       ${items}
   </ol>
+  ${page.long_content ? `<section>${page.long_content}</section>` : ''}
+  ${faqHtml}
 </main>`;
 }
 
@@ -529,11 +541,22 @@ async function main() {
         })),
       };
 
+      const faqItems = Array.isArray(page.faq) && page.faq.length > 0 ? page.faq : [];
+      const faqJsonLd = faqItems.length > 0 ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map(item => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: { '@type': 'Answer', text: item.answer },
+        })),
+      } : null;
+
       savePage(`/best/${page.slug}`, buildPage({
         title: page.meta_title || page.heading,
         description: page.meta_description || page.subheading || '',
         canonical: `${SITE}/best/${page.slug}`,
-        jsonLd,
+        jsonLd: faqJsonLd ? [jsonLd, faqJsonLd] : jsonLd,
         bodyHtml: bestToolsBody(page, pageTools),
       }));
       count++;
