@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { HelmetProvider } from "react-helmet-async";
 import Home from "@/pages/home";
 import Tools from "@/pages/tools";
+import ToolDetail from "@/pages/ToolDetail";
 import BestToolsPage from "@/pages/BestToolsPage";
 import BlogIndex from "@/pages/BlogIndex";
 import BlogPost from "@/pages/BlogPost";
@@ -38,6 +39,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/tools" component={Tools} />
+        <Route path="/tools/:slug" component={ToolDetail} />
         <Route path="/best/:slug" component={BestToolsPage} />
         <Route path="/blog" component={BlogIndex} />
         <Route path="/blog/:slug" component={BlogPost} />
