@@ -127,31 +127,43 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ethicalhacking.ai/blog/how-to-protect-personal-data-online</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://ethicalhacking.ai/blog/what-is-encryption</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ethicalhacking.ai/blog/best-password-managers-2026</loc>
+    <loc>https://ethicalhacking.ai/blog/start-here-guide-2026</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ethicalhacking.ai/blog/what-is-the-dark-web</loc>
+    <loc>https://ethicalhacking.ai/blog/what-is-two-factor-authentication</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ethicalhacking.ai/blog/what-is-a-ddos-attack</loc>
+    <loc>https://ethicalhacking.ai/blog/how-to-secure-home-wifi-network</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/cybersecurity-salary-guide-2026</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/what-is-a-firewall</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/best-cybersecurity-tools-for-beginners-2026</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -163,7 +175,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ethicalhacking.ai/blog/what-is-a-firewall</loc>
+    <loc>https://ethicalhacking.ai/blog/what-is-a-vpn</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/check-if-password-leaked</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -181,19 +199,25 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ethicalhacking.ai/blog/start-here-guide-2026</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ethicalhacking.ai/blog/what-is-a-vpn</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://ethicalhacking.ai/blog/what-is-social-engineering</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/what-is-a-ddos-attack</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/best-password-managers-2026</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/what-is-the-dark-web</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -205,31 +229,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ethicalhacking.ai/blog/cybersecurity-salary-guide-2026</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ethicalhacking.ai/blog/best-cybersecurity-tools-for-beginners-2026</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ethicalhacking.ai/blog/how-to-secure-home-wifi-network</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ethicalhacking.ai/blog/check-if-password-leaked</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ethicalhacking.ai/blog/what-is-two-factor-authentication</loc>
+    <loc>https://ethicalhacking.ai/blog/how-to-protect-personal-data-online</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
