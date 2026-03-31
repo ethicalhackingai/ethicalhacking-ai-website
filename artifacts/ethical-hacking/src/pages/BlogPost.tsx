@@ -9,15 +9,21 @@ import { Footer } from "@/components/sections/footer";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { supabase } from "@/lib/supabase";
 
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
 interface BlogPostData {
   slug: string;
   title: string;
   meta_title: string | null;
   meta_description: string | null;
   content: string;
-  author: string;
+  author: string | null;
   published_at: string;
   category: string | null;
+  faq?: FaqItem[] | null;
 }
 
 function formatDate(iso: string) {
@@ -76,22 +82,54 @@ export default function BlogPost() {
     ? `${post.meta_title || post.title} | EthicalHacking.ai`
     : "Blog | EthicalHacking.ai";
 
-  const jsonLd = post
-    ? JSON.stringify({
+  const publisher = {
+    "@type": "Organization",
+    name: "EthicalHacking.ai",
+    url: "https://ethicalhacking.ai",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://ethicalhacking.ai/opengraph.jpg",
+    },
+  };
+
+  const articleSchema = post
+    ? {
         "@context": "https://schema.org",
         "@type": "Article",
         headline: post.title,
         description: post.meta_description ?? undefined,
-        author: { "@type": "Person", name: "Shaariq Sami" },
-        publisher: {
-          "@type": "Organization",
-          name: "EthicalHacking.ai",
-          url: "https://ethicalhacking.ai",
+        author: {
+          "@type": "Person",
+          name: post.author || "Shaariq Sami",
+          url: "https://ethicalhacking.ai/about",
         },
+        publisher,
         datePublished: post.published_at,
         dateModified: post.published_at,
-        mainEntityOfPage: `https://ethicalhacking.ai/blog/${post.slug}`,
-      })
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `https://ethicalhacking.ai/blog/${post.slug}`,
+        },
+        image: "https://ethicalhacking.ai/opengraph.jpg",
+        url: `https://ethicalhacking.ai/blog/${post.slug}`,
+      }
+    : null;
+
+  const faqItems = Array.isArray(post?.faq) && post.faq.length > 0 ? post.faq : null;
+
+  const faqSchema = faqItems
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqItems.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
+      }
     : null;
 
   return (
@@ -110,9 +148,19 @@ export default function BlogPost() {
             )}
             <meta property="og:url" content={`https://ethicalhacking.ai/blog/${slug}`} />
             <meta property="og:type" content="article" />
+            <meta property="article:published_time" content={post.published_at} />
+            <meta property="article:modified_time" content={post.published_at} />
+            {post.author && (
+              <meta property="article:author" content={post.author} />
+            )}
           </>
         )}
-        {jsonLd && <script type="application/ld+json">{jsonLd}</script>}
+        {articleSchema && (
+          <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
+        )}
+        {faqSchema && (
+          <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        )}
       </Helmet>
 
       <BackgroundGrid />

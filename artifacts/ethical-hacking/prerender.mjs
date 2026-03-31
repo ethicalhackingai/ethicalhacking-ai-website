@@ -453,6 +453,30 @@ async function main() {
     title: 'EthicalHacking.ai — 500+ AI Cybersecurity Tools Directory | Reviews & Comparisons',
     description: 'Discover the best AI tools for ethical hacking, penetration testing, and cyber defense. 500+ expert-reviewed tools with ratings, comparisons, and guides.',
     canonical: SITE,
+    jsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'EthicalHacking.ai',
+        url: SITE,
+        logo: `${SITE}/logo.png`,
+        description: 'The largest AI-powered cybersecurity tools directory with 500+ expert-reviewed tools for ethical hacking, penetration testing, and cyber defense.',
+        founder: { '@type': 'Person', name: 'Shaariq Sami' },
+        foundingDate: '2024',
+        sameAs: ['https://www.linkedin.com/in/shaariqsami'],
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'EthicalHacking.ai',
+        url: SITE,
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: `${SITE}/tools?q={search_term_string}`,
+          'query-input': 'required name=search_term_string',
+        },
+      },
+    ],
     bodyHtml: homepageBody(tools, bestPages || []),
   }));
   count++;
@@ -578,21 +602,57 @@ async function main() {
 
     // Individual blog post pages
     for (const post of blogPosts) {
+      const postPublisher = {
+        '@type': 'Organization',
+        name: 'EthicalHacking.ai',
+        url: SITE,
+        logo: {
+          '@type': 'ImageObject',
+          url: `${SITE}/opengraph.jpg`,
+        },
+      };
       const postJsonLd = {
         '@context': 'https://schema.org',
         '@type': 'Article',
         headline: post.title,
         description: post.meta_description || undefined,
-        author: { '@type': 'Organization', name: post.author || 'EthicalHacking.ai Team' },
-        publisher: { '@type': 'Organization', name: 'EthicalHacking.ai', url: SITE },
+        author: {
+          '@type': 'Person',
+          name: post.author || 'Shaariq Sami',
+          url: `${SITE}/about`,
+        },
+        publisher: postPublisher,
         datePublished: post.published_at,
+        dateModified: post.published_at,
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': `${SITE}/blog/${post.slug}`,
+        },
+        image: `${SITE}/opengraph.jpg`,
         url: `${SITE}/blog/${post.slug}`,
       };
+
+      const faqItems = Array.isArray(post.faq) && post.faq.length > 0 ? post.faq : null;
+      const faqJsonLd = faqItems
+        ? {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqItems.map(item => ({
+              '@type': 'Question',
+              name: item.question,
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: item.answer,
+              },
+            })),
+          }
+        : null;
+
       savePage(`/blog/${post.slug}`, buildPage({
         title: post.meta_title || `${post.title} | EthicalHacking.ai`,
         description: post.meta_description || '',
         canonical: `${SITE}/blog/${post.slug}`,
-        jsonLd: postJsonLd,
+        jsonLd: faqJsonLd ? [postJsonLd, faqJsonLd] : postJsonLd,
         bodyHtml: blogPostBody(post),
       }));
       count++;
