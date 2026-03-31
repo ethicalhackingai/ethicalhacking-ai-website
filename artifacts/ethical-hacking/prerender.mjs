@@ -418,7 +418,7 @@ async function main() {
   // Fetch all published blog posts
   const { data: blogPosts, error: blogErr } = await supabase
     .from('blog_posts')
-    .select('slug, title, meta_title, meta_description, content, author, published_at, category')
+    .select('slug, title, meta_title, meta_description, content, author, published_at, category, faq')
     .eq('status', 'published')
     .order('published_at', { ascending: false })
     .limit(500);
