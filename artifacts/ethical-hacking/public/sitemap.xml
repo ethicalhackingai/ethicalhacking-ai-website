@@ -127,37 +127,25 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ethicalhacking.ai/blog/what-is-encryption</loc>
+    <loc>https://ethicalhacking.ai/blog/what-is-malware</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ethicalhacking.ai/blog/start-here-guide-2026</loc>
+    <loc>https://ethicalhacking.ai/blog/what-is-a-data-breach</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ethicalhacking.ai/blog/what-is-two-factor-authentication</loc>
+    <loc>https://ethicalhacking.ai/blog/what-is-a-cyber-attack</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ethicalhacking.ai/blog/how-to-secure-home-wifi-network</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ethicalhacking.ai/blog/cybersecurity-salary-guide-2026</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ethicalhacking.ai/blog/what-is-a-firewall</loc>
+    <loc>https://ethicalhacking.ai/blog/what-is-cybersecurity</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -169,7 +157,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ethicalhacking.ai/blog/what-is-identity-theft</loc>
+    <loc>https://ethicalhacking.ai/blog/how-to-secure-home-wifi-network</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -235,19 +223,43 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ethicalhacking.ai/blog/what-is-identity-theft</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/what-is-encryption</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/what-is-a-firewall</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/what-is-two-factor-authentication</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/start-here-guide-2026</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/cybersecurity-salary-guide-2026</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ethicalhacking.ai/blog/what-is-digital-forensics</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ethicalhacking.ai/blog/network-security-fundamentals-guide</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ethicalhacking.ai/blog/best-email-security-tools-2026</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -350,6 +362,18 @@
   </url>
   <url>
     <loc>https://ethicalhacking.ai/blog/best-devsecops-tools-2026</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/network-security-fundamentals-guide</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ethicalhacking.ai/blog/best-email-security-tools-2026</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
