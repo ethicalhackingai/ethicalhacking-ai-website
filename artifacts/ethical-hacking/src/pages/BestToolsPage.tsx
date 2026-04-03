@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'wouter';
 import { supabase } from '../lib/supabase';
+import { processInlineMarkdown } from '../lib/renderMarkdown';
 import { NewsletterSignup } from '@/components/NewsletterSignup';
 import { Footer } from '@/components/sections/footer';
 
@@ -261,7 +262,7 @@ export default function BestToolsPage() {
               prose-h3:text-xl prose-h3:font-semibold prose-h3:text-cyan-300 prose-h3:mt-8 prose-h3:mb-3
               prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-4
               prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:text-cyan-300"
-            dangerouslySetInnerHTML={{ __html: page.long_content }}
+            dangerouslySetInnerHTML={{ __html: processInlineMarkdown(page.long_content) }}
           />
         )}
 

@@ -8,6 +8,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/sections/footer";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { supabase } from "@/lib/supabase";
+import { processInlineMarkdown } from "@/lib/renderMarkdown";
 
 interface FaqItem {
   question: string;
@@ -40,16 +41,19 @@ function ContentRenderer({ content }: { content: string }) {
     return (
       <div
         className="prose prose-invert prose-cyan max-w-none text-muted-foreground leading-relaxed"
-        dangerouslySetInnerHTML={{ __html: content }}
+        dangerouslySetInnerHTML={{ __html: processInlineMarkdown(content) }}
       />
     );
   }
+  // Plain text — run inline markdown then render as paragraphs
   return (
     <div className="space-y-5 text-muted-foreground leading-relaxed">
       {content.split(/\n\n+/).map((para, i) => (
-        <p key={i} className="text-sm md:text-base">
-          {para.trim()}
-        </p>
+        <p
+          key={i}
+          className="text-sm md:text-base"
+          dangerouslySetInnerHTML={{ __html: processInlineMarkdown(para.trim()) }}
+        />
       ))}
     </div>
   );
