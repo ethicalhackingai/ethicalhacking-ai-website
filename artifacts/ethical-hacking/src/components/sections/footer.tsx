@@ -75,12 +75,13 @@ export function Footer() {
       <div className="border-t border-border/30">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-600">
           <p>© 2026 EthicalHacking.ai — The #1 AI Cybersecurity Tools Directory</p>
-          <a
-            href="mailto:contact@ethicalhacking.ai"
-            className="hover:text-gray-400 transition-colors font-mono"
-          >
-            contact@ethicalhacking.ai
-          </a>
+          <Link
+  href="/contact"
+  className="hover:text-gray-400 transition-colors"
+>
+  Contact Us
+</Link>
+
         </div>
       </div>
     </footer>
