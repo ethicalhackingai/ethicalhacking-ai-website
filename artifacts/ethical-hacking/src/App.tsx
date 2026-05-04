@@ -76,37 +76,3 @@ function App() {
 }
 
 export default App;
-    <>
-      <ScrollToTop />
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/tools" component={Tools} />
-        <Route path="/tools/:slug" component={ToolDetail} />
-        <Route path="/best/:slug" component={BestToolsPage} />
-        <Route path="/blog" component={BlogIndex} />
-        <Route path="/blog/:slug" component={BlogPost} />
-        <Route path="/compare" component={CompareIndex} />
-        <Route path="/compare/:slug" component={ComparePage} />
-        <Route path="/about" component={About} />
-        <Route component={NotFound} />
-      </Switch>
-    </>
-  );
-}
-
-function App() {
-  return (
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-            <Router />
-          </WouterRouter>
-          <Toaster />
-        </TooltipProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
-  );
-}
-
-export default App;
